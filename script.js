@@ -27,6 +27,7 @@ const namesData = {
     'Michael': { romanji: 'Maikeru', katakana: 'マイケル' },
     'Izzul': { romanji: 'Izzuru', katakana: 'イッズル' },
     'Hizkia': { romanji: 'Hizukia', katakana: 'ヒズキア' },
+    'Haikal': { romanji: 'Haikaru', katakana: 'ハイカル' },
     'Fadel': { romanji: 'Faderu', katakana: 'ファデル' }
 };
 
