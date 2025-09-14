@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Katakana - Japanese Learning Platform</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1>カタカナ Learn</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active" data-tab="home">Home</a></li>
+                <li><a href="#table" class="nav-link" data-tab="table">Katakana Table</a></li>
+                <li><a href="#flashcards" class="nav-link" data-tab="flashcards">Flashcards</a></li>
+                <li><a href="#writing" class="nav-link" data-tab="writing">Writing Practice</a></li>
+                <li><a href="#quiz" class="nav-link" data-tab="quiz">Quiz</a></li>
+                <li><a href="#progress" class="nav-link" data-tab="progress">Progress</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button id="theme-toggle" class="btn-icon" title="Toggle Dark Mode">🌙</button>
+                <button class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="tab-content active">
+            <div class="hero">
+                <h2>Master Japanese Katakana</h2>
+                <p>Learn all 46 katakana characters with interactive lessons, flashcards, and quizzes</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3 id="learned-count">0</h3>
+                        <p>Characters Learned</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="quiz-score">0%</h3>
+                        <p>Average Quiz Score</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="practice-time">0</h3>
+                        <p>Minutes Practiced</p>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <button class="btn btn-primary" onclick="switchTab('table')">Start Learning</button>
+                    <button class="btn btn-secondary" onclick="switchTab('quiz')">Take Quiz</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Katakana Table Section -->
+        <section id="table" class="tab-content">
+            <div class="section-header">
+                <h2>Interactive Katakana Table</h2>
+                <div class="controls">
+                    <input type="text" id="search-input" placeholder="Search katakana..." class="search-input">
+                    <select id="category-filter" class="filter-select">
+                        <option value="all">All Categories</option>
+                        <option value="basic">Basic (あ-お)</option>
+                        <option value="k-sounds">K Sounds (か-こ)</option>
+                        <option value="s-sounds">S Sounds (さ-そ)</option>
+                        <option value="t-sounds">T Sounds (た-と)</option>
+                        <option value="n-sounds">N Sounds (な-の)</option>
+                        <option value="h-sounds">H Sounds (は-ほ)</option>
+                        <option value="m-sounds">M Sounds (ま-も)</option>
+                        <option value="y-sounds">Y Sounds (や-よ)</option>
+                        <option value="r-sounds">R Sounds (ら-ろ)</option>
+                        <option value="w-sounds">W Sounds (わ-を)</option>
+                        <option value="n-sound">N Sound (ん)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="katakana-grid" id="katakana-grid"></div>
+            
+            <!-- Character Detail Modal -->
+            <div id="character-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div class="character-details">
+                        <div class="character-display">
+                            <h3 id="modal-character"></h3>
+                            <p id="modal-romanji"></p>
+                            <button id="bookmark-btn" class="btn-icon">⭐</button>
+                        </div>
+                        <div class="stroke-order">
+                            <h4>Stroke Order</h4>
+                            <canvas id="stroke-canvas" width="200" height="200"></canvas>
+                            <button id="show-stroke" class="btn btn-small">Show Strokes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flashcards Section -->
+        <section id="flashcards" class="tab-content">
+            <div class="section-header">
+                <h2>Flashcard Practice</h2>
+                <div class="controls">
+                    <select id="flashcard-mode" class="filter-select">
+                        <option value="katakana-to-romanji">Katakana → Romanji</option>
+                        <option value="romanji-to-katakana">Romanji → Katakana</option>
+                        <option value="mixed">Mixed Mode</option>
+                    </select>
+                    <button id="shuffle-cards" class="btn btn-small">Shuffle</button>
+                </div>
+            </div>
+            
+            <div class="flashcard-container">
+                <div class="flashcard" id="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-content" id="card-front"></div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-content" id="card-back"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flashcard-controls">
+                    <button id="prev-card" class="btn btn-secondary">← Previous</button>
+                    <span class="card-counter" id="card-counter">1 / 46</span>
+                    <button id="next-card" class="btn btn-secondary">Next →</button>
+                </div>
+                
+                <div class="flashcard-actions">
+                    <button id="flip-card" class="btn btn-primary">Flip Card</button>
+                    <button id="know-card" class="btn btn-success">Know It!</button>
+                    <button id="study-card" class="btn btn-warning">Need Study</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Writing Practice Section -->
+        <section id="writing" class="tab-content">
+            <div class="section-header">
+                <h2>Writing Practice</h2>
+                <div class="controls">
+                    <select id="writing-character" class="filter-select">
+                        <option value="">Select Character</option>
+                    </select>
+                    <button id="clear-canvas" class="btn btn-small">Clear</button>
+                    <button id="show-guide" class="btn btn-small">Show Guide</button>
+                </div>
+            </div>
+            
+            <div class="writing-area">
+                <div class="reference-character">
+                    <h3 id="reference-char">ア</h3>
+                    <p id="reference-romanji">a</p>
+                </div>
+                
+                <div class="practice-canvas-container">
+                    <canvas id="practice-canvas" width="400" height="400"></canvas>
+                    <canvas id="guide-canvas" width="400" height="400"></canvas>
+                </div>
+                
+                <div class="writing-feedback">
+                    <p id="writing-feedback-text">Select a character and start practicing!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz" class="tab-content">
+            <div class="section-header">
+                <h2>Quiz Center</h2>
+            </div>
+            
+            <div class="quiz-modes">
+                <div class="quiz-card" onclick="startQuiz('name-conversion')">
+                    <h3>Name Conversion</h3>
+                    <p>Convert English names to Katakana</p>
+                    <span class="difficulty">Medium</span>
+                </div>
+                
+                <div class="quiz-card" onclick="startQuiz('multiple-choice')">
+                    <h3>Multiple Choice</h3>
+                    <p>Choose the correct romanji or katakana</p>
+                    <span class="difficulty">Easy</span>
+                </div>
+                
+                <div class="quiz-card" onclick="startQuiz('matching')">
+                    <h3>Matching Game</h3>
+                    <p>Match characters with their sounds</p>
+                    <span class="difficulty">Medium</span>
+                </div>
+                
+                <div class="quiz-card" onclick="startQuiz('fill-blanks')">
+                    <h3>Fill in the Blanks</h3>
+                    <p>Complete the missing katakana</p>
+                    <span class="difficulty">Hard</span>
+                </div>
+                
+                <div class="quiz-card" onclick="startQuiz('progressive')">
+                    <h3>Progressive Quiz</h3>
+                    <p>Adaptive difficulty based on performance</p>
+                    <span class="difficulty">Adaptive</span>
+                </div>
+            </div>
+            
+            <!-- Quiz Interface -->
+            <div id="quiz-interface" class="quiz-interface hidden">
+                <div class="quiz-header">
+                    <h3 id="quiz-title"></h3>
+                    <div class="quiz-progress">
+                        <span id="quiz-question-count">1 / 10</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="quiz-progress-fill"></div>
+                        </div>
+                    </div>
+                    <button id="quit-quiz" class="btn btn-small">Quit</button>
+                </div>
+                
+                <div class="quiz-content" id="quiz-content"></div>
+                
+                <div class="quiz-controls">
+                    <button id="quiz-submit" class="btn btn-primary">Submit Answer</button>
+                    <button id="quiz-next" class="btn btn-secondary hidden">Next Question</button>
+                </div>
+                
+                <div id="quiz-feedback" class="quiz-feedback hidden"></div>
+            </div>
+            
+            <!-- Quiz Results -->
+            <div id="quiz-results" class="quiz-results hidden">
+                <h3>Quiz Complete!</h3>
+                <div class="results-stats">
+                    <div class="result-item">
+                        <span class="result-label">Score:</span>
+                        <span class="result-value" id="final-score">0%</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Correct:</span>
+                        <span class="result-value" id="correct-count">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Time:</span>
+                        <span class="result-value" id="quiz-time">0s</span>
+                    </div>
+                </div>
+                <div class="results-actions">
+                    <button id="retake-quiz" class="btn btn-primary">Try Again</button>
+                    <button id="back-to-quiz-menu" class="btn btn-secondary">Back to Quiz Menu</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Section -->
+        <section id="progress" class="tab-content">
+            <div class="section-header">
+                <h2>Learning Progress</h2>
+                <button id="reset-progress" class="btn btn-danger">Reset Progress</button>
+            </div>
+            
+            <div class="progress-overview">
+                <div class="progress-card">
+                    <h3>Overall Progress</h3>
+                    <div class="circular-progress">
+                        <svg viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45" class="progress-bg"></circle>
+                            <circle cx="50" cy="50" r="45" class="progress-bar" id="overall-progress"></circle>
+                        </svg>
+                        <span class="progress-text" id="overall-progress-text">0%</span>
+                    </div>
+                </div>
+                
+                <div class="progress-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Characters Mastered:</span>
+                        <span class="stat-value" id="mastered-characters">0 / 46</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Quiz Average:</span>
+                        <span class="stat-value" id="quiz-average">0%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Study Streak:</span>
+                        <span class="stat-value" id="study-streak">0 days</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bookmarked-characters">
+                <h3>Bookmarked Characters</h3>
+                <div id="bookmarked-list" class="bookmark-grid"></div>
+            </div>
+            
+            <div class="learning-history">
+                <h3>Recent Activity</h3>
+                <div id="activity-log" class="activity-list"></div>
+            </div>
+        </section>
+    </main>
+
+    <script src="katakana-data.js"></script>
+    <script src="utils.js"></script>
+    <script src="app.js"></script>
+    <script src="flashcards.js"></script>
+    <script src="quiz.js"></script>
+    <script src="writing-practice.js"></script>
+</body>
+</html>
